@@ -1,8 +1,18 @@
-PUT _ingest/pipeline/smartctl-json
+PUT _ingest/pipeline/logs-smart.generic@custom
 {
   "description": "parses json produced by smartctl into custom ECS fields",
   "version": 1,
   "processors": [
+    {
+      "date": {
+        "field": "json.local_time.time_t",
+        "formats": [
+          "UNIX"
+        ],
+        "timezone": "UTC",
+        "ignore_failure": true
+      }
+    },
     {
       "rename": {
         "field": "json.device.name",
@@ -160,6 +170,41 @@ PUT _ingest/pipeline/smartctl-json
         "ignore_missing": true
       }
     },
+    {      
+      "rename": {
+        "field": "json.nvme_version.string",
+        "target_field": "SMART.device.nvme.version",
+        "ignore_missing": true
+      }
+    },
+    {      
+      "rename": {
+        "field": "json.nvme_unallocated_capacity",
+        "target_field": "SMART.device.nvme.unallocated_capacity",
+        "ignore_missing": true
+      }
+    },
+    {      
+      "rename": {
+        "field": "json.nvme_total_capacity",
+        "target_field": "SMART.device.nvme.total_capacity",
+        "ignore_missing": true
+      }
+    },
+    {      
+      "rename": {
+        "field": "json.nvme_ieee_oui_identifier",
+        "target_field": "SMART.device.nvme.ieee_oui_id",
+        "ignore_missing": true
+      }
+    },
+    {      
+      "rename": {
+        "field": "json.nvme_controller_id",
+        "target_field": "SMART.device.nvme.controller_id",
+        "ignore_missing": true
+      }
+    },
     {
       "rename": {
         "field": "json.power_on_time.seconds",
@@ -227,6 +272,12 @@ PUT _ingest/pipeline/smartctl-json
         "description": "Runs a script to extract sata_phy_event_counters"
       }
     },
+    {
+      "script": {
+        "source": "Map entries =  ctx.json?.nvme_smart_health_information_log;\nif(entries == null) return;\nif(ctx.SMART == null) ctx.SMART = new HashMap();\nif(ctx.SMART.data == null) ctx.SMART.data = new HashMap();\nif(ctx.SMART.data.nvme_smart_health_information == null) ctx.SMART.data.nvme_smart_health_information = new HashMap();\nfor(Map.Entry entry : entries.entrySet()) {\n String valueName = /\\s+/.matcher(entry.getKey()).replaceAll('_');\n  valueName = /,/.matcher(valueName).replaceAll('');\n  valueName = valueName.toLowerCase();\n  if(valueName.startsWith(\"number_of_\")) valueName = valueName.substring(10);\n  ctx.SMART.data.nvme_smart_health_information[valueName] = entry.getValue();\n}\n\n",
+        "description": "Runs a script to extract sata_phy_event_counters"
+      }
+    },    
     {
       "remove": {
         "field": "json",

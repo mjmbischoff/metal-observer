@@ -995,5 +995,138 @@
         }
       }
     }
+  },
+  {
+    "_index": "index",
+    "_id": "id",
+    "_source": {
+      "json": {
+        "device": {
+          "info_name": "/dev/nvme0",
+          "name": "/dev/nvme0",
+          "protocol": "NVMe",
+          "type": "nvme"
+        },
+        "firmware_version": "SN11778",
+        "json_format_version": [
+          1,
+          0
+        ],
+        "local_time": {
+          "asctime": "Fri Oct 25 12:50:01 2024 UTC",
+          "time_t": 1729860601
+        },
+        "logical_block_size": 512,
+        "model_name": "Lexar SSD NM710 1TB",
+        "nvme_controller_id": 0,
+        "nvme_error_information_log": {
+          "read": 16,
+          "size": 64,
+          "unread": 0
+        },
+        "nvme_ieee_oui_identifier": 13300315,
+        "nvme_namespaces": [
+          {
+            "capacity": {
+              "blocks": 1953525168,
+              "bytes": 1000204886016
+            },
+            "eui64": {
+              "ext_id": 11542724777,
+              "oui": 13300315
+            },
+            "formatted_lba_size": 512,
+            "id": 1,
+            "size": {
+              "blocks": 1953525168,
+              "bytes": 1000204886016
+            },
+            "utilization": {
+              "blocks": 1953525168,
+              "bytes": 1000204886016
+            }
+          }
+        ],
+        "nvme_number_of_namespaces": 1,
+        "nvme_pci_vendor": {
+          "id": 7575,
+          "subsystem_id": 7575
+        },
+        "nvme_self_test_log": {
+          "current_self_test_operation": {
+            "string": "No self-test in progress",
+            "value": 0
+          }
+        },
+        "nvme_smart_health_information_log": {
+          "available_spare": 100,
+          "available_spare_threshold": 10,
+          "controller_busy_time": 8180,
+          "critical_comp_time": 0,
+          "critical_warning": 0,
+          "data_units_read": 6642991,
+          "data_units_written": 110950045,
+          "host_reads": 65105985,
+          "host_writes": 1523205242,
+          "media_errors": 0,
+          "num_err_log_entries": 0,
+          "percentage_used": 15,
+          "power_cycles": 6,
+          "power_on_hours": 3603,
+          "temperature": 47,
+          "temperature_sensors": [
+            47,
+            34
+          ],
+          "unsafe_shutdowns": 5,
+          "warning_temp_time": 0
+        },
+        "nvme_total_capacity": 1000204886016,
+        "nvme_unallocated_capacity": 0,
+        "nvme_version": {
+          "string": "2.0",
+          "value": 131072
+        },
+        "power_cycle_count": 6,
+        "power_on_time": {
+          "hours": 3603
+        },
+        "serial_number": "NLE2352002744P2209",
+        "smart_status": {
+          "nvme": {
+            "value": 0
+          },
+          "passed": true
+        },
+        "smart_support": {
+          "available": true,
+          "enabled": true
+        },
+        "smartctl": {
+          "argv": [
+            "smartctl",
+            "-j",
+            "-x",
+            "/dev/nvme0"
+          ],
+          "build_info": "(local build)",
+          "exit_status": 0,
+          "platform_info": "x86_64-linux-6.8.0-47-generic",
+          "pre_release": false,
+          "svn_revision": "5530",
+          "version": [
+            7,
+            4
+          ]
+        },
+        "temperature": {
+          "current": 47
+        },
+        "user_capacity": {
+          "blocks": 1953525168,
+          "bytes": 1000204886016
+        }
+      }
+    }
   }
 ]

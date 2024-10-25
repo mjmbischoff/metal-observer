@@ -1,0 +1,34 @@
+PUT kbn:/api/fleet/package_policies/<policy>
+{
+  "package": {
+    "name": "http_endpoint",
+    "version": "2.2.1"
+  },
+  "name": "SMART collector Policy",
+  "namespace": "homelab",
+  "description": "S.M.A.R.T. integration policy",
+  "policy_ids": [
+    "<policy_id>"
+  ],
+  "vars": {},
+  "inputs": {
+    "http_endpoint-http_endpoint": {
+      "enabled": true,
+      "streams": {
+        "http_endpoint.http_endpoint": {
+          "enabled": true,
+          "vars": {
+            "method": "POST",
+            "listen_address": "localhost",
+            "listen_port": 44002,
+            "data_stream.dataset": "smart.generic",
+            "preserve_original_event": true,
+            "include_headers": [],
+            "ssl": "enabled: false\ncertificate: \"/etc/pki/client/cert.pem\"\nkey: \"/etc/pki/client/cert.key\"\n",
+            "tags": []
+          }
+        }
+      }
+    }
+  }
+}

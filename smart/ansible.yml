@@ -1,0 +1,29 @@
+---
+- name: "setup S.M.A.R.T. monitoring"
+  become: yes
+  block:
+  - name: "ensure smartmon tools & cron are installed"
+    package:
+      name:
+        - smartmontools
+        - cron
+  - name: Create a directory if it does not exist
+    ansible.builtin.file:
+      path: /opt/metal-observer
+      state: directory
+      mode: '0755'
+  - name: "provision script"
+    ansible.builtin.template:
+      src: templates/collect-smart.j2
+      dest: /opt/metal-observer/collect-smart.sh
+      owner: root
+      group: root
+      mode: '0401'
+  - name: "add cron job"
+    ansible.builtin.cron:
+      name: run S.M.A.R.T. collection
+      minute: "*/10"
+      user: root
+      job: "/opt/metal-observer/collect-smart.sh"
+      cron_file: ansible_collect-smart-data
+  when: ansible_facts['os_family'] == 'Debian'
