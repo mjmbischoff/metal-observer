@@ -1,0 +1,237 @@
+PUT _ingest/pipeline/smartctl-json
+{
+  "description": "parses json produced by smartctl into custom ECS fields",
+  "version": 1,
+  "processors": [
+    {
+      "rename": {
+        "field": "json.device.name",
+        "target_field": "SMART.device.name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.interface_speed.max.string",
+        "target_field": "SMART.device.interface_speed.max.label",
+        "ignore_missing": true
+      }
+    },
+    {
+      "script": {
+        "source": "Long bits_per_unit = ctx.json?.interface_speed?.max?.bits_per_unit;\nLong units_per_second = ctx.json?.interface_speed?.max?.units_per_second;\nif(bits_per_unit == null || units_per_second == null) return;\n\nif(ctx.SMART == null) ctx.SMART = new HashMap();\nif(ctx.SMART.device == null) ctx.SMART.device = new HashMap();\nif(ctx.SMART.device.interface_speed == null) ctx.SMART.device.interface_speed = new HashMap();\nif(ctx.SMART.device.interface_speed.max == null) ctx.SMART.device.interface_speed.max = new HashMap();\n\nctx.SMART.device.interface_speed.max.bits_per_second = bits_per_unit.longValue() * units_per_second.longValue();\n",
+        "description": "Script to calculate bits per second"
+      }
+    },
+    {
+      "rename": {
+        "field": "json.logical_block_size",
+        "target_field": "SMART.device.logical_block_size",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.physical_block_size",
+        "target_field": "SMART.device.physical_block_size",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.model_family",
+        "target_field": "SMART.device.model.family",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.model_name",
+        "target_field": "SMART.device.model.name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "script": {
+        "lang": "painless",
+        "source": "if(ctx.json?.power_on_time?.hours != null) ctx.json.power_on_time.seconds = ctx.json.power_on_time.hours * 60 * 60"
+      }
+    },
+    {
+      "rename": {
+        "field": "json.smart_support.available",
+        "target_field": "SMART.device.smart_support.available",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.smart_support.enabled",
+        "target_field": "SMART.device.smart_support.enabled",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.user_capacity.blocks",
+        "target_field": "SMART.device.user_capacity.blocks",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.user_capacity.bytes",
+        "target_field": "SMART.device.user_capacity.bytes",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.temperature.lifetime_max",
+        "target_field": "SMART.device.temperature.lifetime.max",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.temperature.lifetime_min",
+        "target_field": "SMART.device.temperature.lifetime.min",
+        "ignore_missing": true
+      }
+    },
+    {
+      "script": {
+        "lang": "painless",
+        "source": "if(ctx.json?.temperature?.lifetime_over_limit_minutes != null) ctx.json.temperature.lifetime_over_limit_seconds  = ctx.json.temperature.lifetime_over_limit_minutes * 60 * 1000;"
+      }
+    },
+    {
+      "script": {
+        "lang": "painless",
+        "source": "if(ctx.json?.temperature?.lifetime_under_limit_minutes != null) ctx.json.temperature.lifetime_under_limit_seconds  = ctx.json.temperature.lifetime_under_limit_minutes * 60;"
+      }
+    },
+    {
+      "rename": {
+        "field": "json.temperature.current",
+        "target_field": "SMART.device.temperature.current",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.firmware_version",
+        "target_field": "SMART.device.firmware_version",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.rotation_rate",
+        "target_field": "SMART.device.rotation_rate",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.sata_version.string",
+        "target_field": "SMART.device.sata_version",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.serial_number",
+        "target_field": "SMART.device.serial_number",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.device.protocol",
+        "target_field": "SMART.device.protocol",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.form_factor.name",
+        "target_field": "SMART.device.form_factor.name",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.power_on_time.seconds",
+        "target_field": "SMART.data.power.on_time",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.power_cycle_count",
+        "target_field": "SMART.data.power.cycles",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.smart_status.passed",
+        "target_field": "SMART.data.smart_status.passed",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.temperature.lifetime_under_limit_seconds",
+        "target_field": "SMART.data.temperature.lifetime.under_limit",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.temperature.lifetime_over_limit_seconds",
+        "target_field": "SMART.data.temperature.lifetime.over_limit",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.ata_smart_data.self_test.status.string",
+        "target_field": "SMART.data.self_test.status.message",
+        "ignore_missing": true
+      }
+    },
+    {
+      "rename": {
+        "field": "json.ata_smart_data.self_test.status.passed",
+        "target_field": "SMART.data.self_test.status.passed",
+        "ignore_missing": true
+      }
+    },
+    {
+      "script": {
+        "source": "List pages =  ctx.json?.ata_device_statistics?.pages;\nif(pages == null) return;\nif(ctx.SMART == null) ctx.SMART = new HashMap();\nif(ctx.SMART.data == null) ctx.SMART.data = new HashMap();\nif(ctx.SMART.data.stats == null) ctx.SMART.data.stats = new HashMap();\nfor(Map page : pages) {\n  if(page.name == null || page.table == null) continue;\n  String categoryName = /\\s+/.matcher(page.name).replaceAll('_').toLowerCase();\n  if(ctx.SMART.data.stats[categoryName] == null) ctx.SMART.data.stats[categoryName] = new HashMap();\n  List tables = page.table;\n  for(Map table : tables) {\n    if(table.name == null || table.value == null) continue;\n    String valueName = /\\s+/.matcher(table.name).replaceAll('_').toLowerCase();\n    if(valueName.startsWith(\"number_of_\")) valueName = valueName.substring(10);\n    ctx.SMART.data.stats[categoryName][valueName] = table.value;\n  }\n}\n",
+        "description": "Runs a script to extract ata_device_statistics"
+      }
+    },
+    {
+      "script": {
+        "source": "List tables =  ctx.json?.ata_smart_attributes?.table;\nif(tables == null) return;\nif(ctx.SMART == null) ctx.SMART = new HashMap();\nif(ctx.SMART.data == null) ctx.SMART.data = new HashMap();\nif(ctx.SMART.data.attributes == null) ctx.SMART.data.attributes = new HashMap();\nfor(Map table : tables) {\n  if(table.name == null || table.raw ==null || table.raw.string == null) continue;\n  String valueName = /\\s+/.matcher(table.name).replaceAll('_').toLowerCase();\n  if(valueName.startsWith(\"number_of_\")) valueName = valueName.substring(10);\n  ctx.SMART.data.attributes[valueName] = table.raw.string;\n}\n\n",
+        "description": "Runs a script to extract ata_smart_attributes"
+      }
+    },
+    {
+      "script": {
+        "source": "List tables =  ctx.json?.sata_phy_event_counters?.table;\nif(tables == null) return;\nif(ctx.SMART == null) ctx.SMART = new HashMap();\nif(ctx.SMART.data == null) ctx.SMART.data = new HashMap();\nif(ctx.SMART.data.physical_event_counters == null) ctx.SMART.data.physical_event_counters = new HashMap();\nfor(Map table : tables) {\n  if(table.name == null || table.value == null) continue;\n  String valueName = /\\s+/.matcher(table.name).replaceAll('_');\n  valueName = /,/.matcher(valueName).replaceAll('');\n  valueName = valueName.toLowerCase();\n  if(valueName.startsWith(\"number_of_\")) valueName = valueName.substring(10);\n  ctx.SMART.data.physical_event_counters[valueName] = table.value;\n}\n\n",
+        "description": "Runs a script to extract sata_phy_event_counters"
+      }
+    },
+    {
+      "remove": {
+        "field": "json",
+        "if": "ctx.json != null"
+      }
+    }
+  ]
+}

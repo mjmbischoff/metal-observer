@@ -1,0 +1,1 @@
+cat /sys/class/dmi/id/bios_release 

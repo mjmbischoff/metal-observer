@@ -6,7 +6,7 @@ SMARTCTL_PROCESS_COMMAND=(cut -f1 -d ' ')
 SMARTCTL_COLLECTION_PARAMS=(-j -x)
 
 POST_COMMAND="curl"
-POST_URL="http://localhost:24444"
+POST_URL="http://localhost:44002"
 POST_PARAMS=(-X POST -H 'Content-Type: application/json' -d @-)
 
 type $SMARTCTL_COMMAND >/dev/null 2>&1 || { 

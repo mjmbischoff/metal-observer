@@ -1,0 +1,366 @@
+PUT _component_template/logs-smart.generic@custom
+{
+  "template": {
+    "mappings": {
+      "dynamic_templates": [
+        {
+          "smart-attributes-long": {
+            "path_match": [
+              "SMART.data.attributes.*"
+            ],
+            "unmatch_mapping_type": "object",
+            "mapping": {
+              "type": "long"
+            }
+          }
+        }
+      ],
+      "properties": {
+        "SMART": {
+          "properties": {
+            "data": {
+              "properties": {
+                "physical_event_counters": {
+                  "properties": {
+                    "command_failed_due_to_icrc_error": {
+                      "type": "long"
+                    },
+                    "crc_errors_within_host-to-device_fis": {
+                      "type": "long"
+                    },
+                    "device-to-host_non-data_fis_retries": {
+                      "type": "long"
+                    },
+                    "device-to-host_register_fises_sent_due_to_a_comreset": {
+                      "type": "long"
+                    },
+                    "non-crc_errors_within_host-to-device_fis": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_data_fis": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_device-to-host_data_fis": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_device-to-host_non-data_fis": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_host-to-device_data_fis": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_host-to-device_data_fis_crc": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_host-to-device_data_fis_non-crc": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_host-to-device_non-data_fis": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_host-to-device_non-data_fis_crc": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_host-to-device_non-data_fis_non-crc": {
+                      "type": "long"
+                    },
+                    "r_err_response_for_non-data_fis": {
+                      "type": "long"
+                    },
+                    "transition_from_drive_phyrdy_to_drive_phynrdy": {
+                      "type": "long"
+                    },
+                    "vendor_specific": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "power": {
+                  "properties": {
+                    "cycles": {
+                      "type": "long"
+                    },
+                    "on_time": {
+                      "type": "long"
+                    }
+                  }
+                },
+                "self_test": {
+                  "properties": {
+                    "status": {
+                      "properties": {
+                        "message": {
+                          "type": "match_only_text"
+                        },
+                        "passed": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  }
+                },
+                "smart_status": {
+                  "properties": {
+                    "passed": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "stats": {
+                  "properties": {
+                    "general_errors_statistics": {
+                      "properties": {
+                        "reported_uncorrectable_errors": {
+                          "type": "long"
+                        },
+                        "resets_between_cmd_acceptance_and_completion": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "general_statistics": {
+                      "properties": {
+                        "date_and_time_timestamp": {
+                          "type": "date"
+                        },
+                        "lifetime_power-on_resets": {
+                          "type": "long"
+                        },
+                        "logical_sectors_read": {
+                          "type": "long"
+                        },
+                        "logical_sectors_written": {
+                          "type": "long"
+                        },
+                        "power-on_hours": {
+                          "type": "long"
+                        },
+                        "read_commands": {
+                          "type": "long"
+                        },
+                        "write_commands": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "rotating_media_statistics": {
+                      "properties": {
+                        "head_flying_hours": {
+                          "type": "long"
+                        },
+                        "head_load_events": {
+                          "type": "long"
+                        },
+                        "mechanical_start_failures": {
+                          "type": "long"
+                        },
+                        "read_recovery_attempts": {
+                          "type": "long"
+                        },
+                        "reallocated_logical_sectors": {
+                          "type": "long"
+                        },
+                        "spindle_motor_power-on_hours": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "solid_state_device_statistics": {
+                      "properties": {
+                        "percentage_used_endurance_indicator": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "temperature_statistics": {
+                      "properties": {
+                        "average_long_term_temperature": {
+                          "type": "long"
+                        },
+                        "average_short_term_temperature": {
+                          "type": "long"
+                        },
+                        "current_temperature": {
+                          "type": "long"
+                        },
+                        "highest_average_long_term_temperature": {
+                          "type": "long"
+                        },
+                        "highest_average_short_term_temperature": {
+                          "type": "long"
+                        },
+                        "highest_temperature": {
+                          "type": "long"
+                        },
+                        "lowest_average_long_term_temperature": {
+                          "type": "long"
+                        },
+                        "lowest_average_short_term_temperature": {
+                          "type": "long"
+                        },
+                        "lowest_temperature": {
+                          "type": "long"
+                        },
+                        "specified_maximum_operating_temperature": {
+                          "type": "long"
+                        },
+                        "specified_minimum_operating_temperature": {
+                          "type": "long"
+                        },
+                        "time_in_over-temperature": {
+                          "type": "long"
+                        },
+                        "time_in_under-temperature": {
+                          "type": "long"
+                        }
+                      }
+                    },
+                    "transport_statistics": {
+                      "properties": {
+                        "asr_events": {
+                          "type": "long"
+                        },
+                        "hardware_resets": {
+                          "type": "long"
+                        },
+                        "interface_crc_errors": {
+                          "type": "long"
+                        }
+                      }
+                    }
+                  }
+                },
+                "temperature": {
+                  "properties": {
+                    "lifetime": {
+                      "properties": {
+                        "over_limit": {
+                          "type": "long"
+                        },
+                        "under_limit": {
+                          "type": "long"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            "device": {
+              "properties": {
+                "firmware_version": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "form_factor": {
+                  "properties": {
+                    "name": {
+                      "type": "keyword"
+                    }
+                  }
+                },
+                "interface_speed": {
+                  "properties": {
+                    "max": {
+                      "properties": {
+                        "bits_per_second": {
+                          "type": "long"
+                        },
+                        "label": {
+                          "type": "keyword",
+                          "ignore_above": 1024
+                        }
+                      }
+                    }
+                  }
+                },
+                "logical_block_size": {
+                  "type": "long"
+                },
+                "model": {
+                  "properties": {
+                    "family": {
+                      "type": "keyword",
+                      "ignore_above": 1024
+                    },
+                    "name": {
+                      "type": "keyword",
+                      "fields": {
+                        "text": {
+                          "type": "match_only_text"
+                        }
+                      }
+                    }
+                  }
+                },
+                "name": {
+                  "type": "keyword",
+                  "fields": {
+                    "text": {
+                      "type": "match_only_text"
+                    }
+                  }
+                },
+                "physical_block_size": {
+                  "type": "long"
+                },
+                "protocol": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "rotation_rate": {
+                  "type": "long"
+                },
+                "sata_version": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "serial_number": {
+                  "type": "keyword",
+                  "ignore_above": 1024
+                },
+                "smart_support": {
+                  "properties": {
+                    "available": {
+                      "type": "boolean"
+                    },
+                    "enabled": {
+                      "type": "boolean"
+                    }
+                  }
+                },
+                "temperature": {
+                  "properties": {
+                    "current": {
+                      "type": "long"
+                    },
+                    "lifetime": {
+                      "properties": {
+                        "max": {
+                          "type": "long"
+                        },
+                        "min": {
+                          "type": "long"
+                        }
+                      }
+                    }
+                  }
+                },
+                "user_capacity": {
+                  "properties": {
+                    "blocks": {
+                      "type": "long"
+                    },
+                    "bytes": {
+                      "type": "long"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
